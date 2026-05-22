@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-这是一个基于 Rust 的透明代理编排器，可以把上游代理转换成“全局流量接管”能力，并通过 Linux/Windows 后端落地。
+这是一个 Rust 版 sshuttle 风格的透明代理编排器，可以把上游 SOCKS/HTTP 代理转换成“全局流量接管”能力，并通过 Linux/Windows 后端落地。
 
 ## 核心能力
 
@@ -15,6 +15,10 @@
 - DNS 捕获：可选（`--dns-capture`），支持 SOCKS5 UDP 路径
 - 运维命令：`doctor`、`cleanup`
 - 策略引擎：JSON/YAML（`--policy-file`）+ `explain` + `doctor --bypass-check-process`
+
+## 当前状态
+
+`sshuttle-rs` 目前适合作为 preview/early release 使用。核心路径已经实现并进入 CI 覆盖，但长期生产稳定性验证仍在继续。
 
 ## 快速开始
 
@@ -127,10 +131,11 @@ cargo run -- cleanup --mode transparent --platform auto --listen 127.0.0.1:18080
 
 | 能力 | Linux | Windows |
 |---|---|---|
-| 透明 TCP 重定向 | 支持 | 支持（内置 worker 最小版 / 外部 worker） |
-| 按程序绕过 | 支持（uid/gid） | 支持（transparent 模式 `--bypass-process`） |
-| DNS 捕获 | 支持 | 取决于 transparent worker/native dataplane |
-| UDP 捕获（非 DNS） | Linux 首版可用（socks5 上游 + 指定 UDP 端口） | 计划在 WinDivert/WFP native dataplane 中实现 |
+| 透明 TCP 重定向 | 支持 | 支持（内置 WinDivert 数据面） |
+| 按程序绕过 | 支持（uid/gid） | 支持（`--bypass-process` 与 policy） |
+| DNS 捕获 | 支持 | 支持（`--dns-capture`） |
+| UDP 捕获（非 DNS） | 支持（指定 UDP 端口） | 支持（指定 UDP 端口） |
+| IPv6 报文处理 | 取决于 Linux 后端 | 支持原生数据面实用路径 |
 | 上游 socks5/socks4/http | 支持 | 支持 |
 
 ## CI / Release
@@ -166,3 +171,7 @@ Windows 发布包必须包含：
 - [Policy 规范（中文）](docs/POLICY_CN.md)
 - [Windows Native Dataplane (English)](docs/WINDOWS_NATIVE_EN.md)
 - [Windows 原生数据面说明（中文）](docs/WINDOWS_NATIVE_CN.md)
+- [Linux Backend (English)](docs/LINUX_EN.md)
+- [Linux 后端说明（中文）](docs/LINUX_CN.md)
+- [Troubleshooting (English)](docs/TROUBLESHOOTING_EN.md)
+- [故障排查（中文）](docs/TROUBLESHOOTING_CN.md)

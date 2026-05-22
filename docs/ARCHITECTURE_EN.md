@@ -45,6 +45,7 @@
 - Upstream types: socks5/socks4/http.
 - DNS capture on Linux (with SOCKS5 UDP path).
 - Windows native transparent dataplane for TCP + DNS/selected UDP redirect path.
+- Linux transparent dataplane with iptables/nft and selected UDP capture.
 - CI + release matrix with multi-arch artifacts.
 
 ## Next Focus

@@ -2,7 +2,7 @@
 
 [中文说明](README_CN.md)
 
-A Rust-based transparent proxy orchestrator that can convert an upstream proxy into system-wide routing, with platform backends for Linux and Windows.
+A Rust-based sshuttle-style transparent proxy orchestrator. It turns an upstream SOCKS/HTTP proxy into system-wide traffic steering, with native backends for Linux and Windows.
 
 ## Highlights
 
@@ -15,6 +15,10 @@ A Rust-based transparent proxy orchestrator that can convert an upstream proxy i
 - DNS capture: optional (`--dns-capture`), SOCKS5 UDP path supported
 - Operations helpers: `doctor`, `cleanup`
 - Policy engine: JSON/YAML (`--policy-file`) + `explain` + `doctor --bypass-check-process`
+
+## Status
+
+`sshuttle-rs` is usable as a preview/early release. The core paths are implemented and CI-covered, but long-running production validation is still ongoing.
 
 ## Quick Start
 
@@ -127,10 +131,11 @@ cargo run -- cleanup --mode transparent --platform auto --listen 127.0.0.1:18080
 
 | Capability | Linux | Windows |
 |---|---|---|
-| Transparent TCP redirect | Yes | Yes (native worker minimal / external worker) |
-| Per-process bypass | Yes (`uid/gid`) | Yes (`--bypass-process` in transparent mode) |
-| DNS capture | Yes | Depends on transparent backend worker/native dataplane |
-| UDP capture (non-DNS) | Linux first version (SOCKS5 upstream + selected UDP ports) | Planned in native WinDivert/WFP dataplane |
+| Transparent TCP redirect | Yes | Yes (built-in WinDivert dataplane) |
+| Per-process bypass | Yes (`uid/gid`) | Yes (`--bypass-process` and policy) |
+| DNS capture | Yes | Yes (`--dns-capture`) |
+| UDP capture (non-DNS) | Yes (selected UDP ports) | Yes (selected UDP ports) |
+| IPv6 packet handling | Linux backend-dependent | Yes on native dataplane practical path |
 | Upstream socks5/socks4/http | Yes | Yes |
 
 ## CI / Release
@@ -167,3 +172,7 @@ Native packaging note:
 - [Policy 规范（中文）](docs/POLICY_CN.md)
 - [Windows Native Dataplane (English)](docs/WINDOWS_NATIVE_EN.md)
 - [Windows 原生数据面说明（中文）](docs/WINDOWS_NATIVE_CN.md)
+- [Linux Backend (English)](docs/LINUX_EN.md)
+- [Linux 后端说明（中文）](docs/LINUX_CN.md)
+- [Troubleshooting (English)](docs/TROUBLESHOOTING_EN.md)
+- [故障排查（中文）](docs/TROUBLESHOOTING_CN.md)

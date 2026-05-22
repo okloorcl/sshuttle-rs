@@ -45,6 +45,7 @@
 - 上游协议：socks5/socks4/http。
 - Linux DNS 捕获（含 SOCKS5 UDP 路径）。
 - Windows 原生透明数据面支持 TCP + DNS/指定 UDP 重定向路径。
+- Linux 透明数据面支持 iptables/nft 与指定 UDP 捕获。
 - 多架构 CI + Release 发布流水线。
 
 ## 下一阶段
